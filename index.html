@@ -1408,48 +1408,133 @@
       }
     }
 
+    // Fetch a single symbol's last price.
+    // Yahoo Finance's endpoints do NOT send CORS headers, so the browser blocks
+    // direct fetches from pages served over HTTPS (like GitHub Pages). We try a
+    // chain of sources — any one working is enough. We log which source won
+    // to the console so you can diagnose failures live.
+    async function fetchWithTimeout(url, opts = {}, timeoutMs = 6000) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        return await fetch(url, Object.assign({ cache: 'no-store', signal: controller.signal }, opts));
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function fetchPrice(symbol) {
+      const sym = symbol.toLowerCase();
+      const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`;
+
+      // Ordered list of source callbacks. Each returns a number price or throws.
+      const sources = [
+        // 1) Stooq CSV — CORS-enabled, no API key, delayed ~15 min.
+        {
+          name: 'stooq',
+          run: async () => {
+            const r = await fetchWithTimeout(`https://stooq.com/q/l/?s=${sym}.us&f=sd2t2c&h&e=csv`);
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            const text = (await r.text()).trim();
+            const line = text.split(/\r?\n/)[1];
+            if (!line) throw new Error('empty csv');
+            const p = parseFloat(line.split(',')[3]);
+            if (!(p > 0)) throw new Error('no price in csv');
+            return p;
+          }
+        },
+        // 2) corsproxy.io wrapping Yahoo — near real-time when market open.
+        {
+          name: 'yahoo via corsproxy.io',
+          run: async () => {
+            const r = await fetchWithTimeout('https://corsproxy.io/?' + encodeURIComponent(yahooUrl));
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            const d = await r.json();
+            const p = d && d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta && d.chart.result[0].meta.regularMarketPrice;
+            if (!(p > 0)) throw new Error('no price in json');
+            return p;
+          }
+        },
+        // 3) allorigins.win — second public CORS proxy.
+        {
+          name: 'yahoo via allorigins',
+          run: async () => {
+            const r = await fetchWithTimeout('https://api.allorigins.win/raw?url=' + encodeURIComponent(yahooUrl));
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            const d = await r.json();
+            const p = d && d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta && d.chart.result[0].meta.regularMarketPrice;
+            if (!(p > 0)) throw new Error('no price in json');
+            return p;
+          }
+        },
+        // 4) codetabs.com proxy — third CORS proxy.
+        {
+          name: 'yahoo via codetabs',
+          run: async () => {
+            const r = await fetchWithTimeout('https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(yahooUrl));
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            const d = await r.json();
+            const p = d && d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta && d.chart.result[0].meta.regularMarketPrice;
+            if (!(p > 0)) throw new Error('no price in json');
+            return p;
+          }
+        },
+        // 5) thingproxy — fourth CORS proxy (different provider).
+        {
+          name: 'yahoo via thingproxy',
+          run: async () => {
+            const r = await fetchWithTimeout('https://thingproxy.freeboard.io/fetch/' + yahooUrl);
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            const d = await r.json();
+            const p = d && d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta && d.chart.result[0].meta.regularMarketPrice;
+            if (!(p > 0)) throw new Error('no price in json');
+            return p;
+          }
+        }
+      ];
+
+      const errors = [];
+      for (const src of sources) {
+        try {
+          const price = await src.run();
+          console.info('[live-ticker]', symbol, 'resolved via', src.name, '→ $' + price.toFixed(2));
+          return { price, source: src.name };
+        } catch (e) {
+          errors.push(src.name + ': ' + (e && e.message ? e.message : e));
+        }
+      }
+      throw new Error('all sources failed — ' + errors.join(' | '));
+    }
+
     async function fetchLivePrices() {
-      const tickers = document.querySelectorAll('.live-ticker');
+      const tickers = Array.from(document.querySelectorAll('.live-ticker'));
       // Reset aggregation on refresh
       scorecardState.wins = 0;
       scorecardState.returns = [];
       scorecardState.resolved = 0;
 
-      for (const el of tickers) {
+      // Run all ticker fetches in parallel so one slow source doesn't block the rest.
+      await Promise.all(tickers.map(async (el) => {
         const symbol = el.dataset.ticker;
         const pitchPrice = parseFloat(el.dataset.pitch);
         const priceEl = el.querySelector('.live-price');
         const returnEl = el.querySelector('.live-return');
 
         try {
-          const resp = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`);
-          if (!resp.ok) throw new Error('Yahoo v8 failed');
-          const data = await resp.json();
-          const price = data.chart.result[0].meta.regularMarketPrice;
+          const { price } = await fetchPrice(symbol);
           updateTicker(el, priceEl, returnEl, price, pitchPrice);
-        } catch (e1) {
-          try {
-            const resp2 = await fetch(`https://query2.finance.yahoo.com/v6/finance/quote?symbols=${symbol}`);
-            if (!resp2.ok) throw new Error('Yahoo v6 failed');
-            const data2 = await resp2.json();
-            const price2 = data2.quoteResponse.result[0].regularMarketPrice;
-            updateTicker(el, priceEl, returnEl, price2, pitchPrice);
-          } catch (e2) {
-            try {
-              const resp3 = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=demo`);
-              if (!resp3.ok) throw new Error('Finnhub failed');
-              const data3 = await resp3.json();
-              if (data3.c && data3.c > 0) updateTicker(el, priceEl, returnEl, data3.c, pitchPrice);
-              else throw new Error('No data');
-            } catch (e3) {
-              priceEl.classList.remove('live-loading');
-              priceEl.classList.add('live-error');
-              priceEl.textContent = 'Market closed';
-              returnEl.style.display = 'none';
-            }
-          }
+        } catch (err) {
+          // Graceful degradation: turn the ticker into a "View on Yahoo" link
+          // instead of showing a dead error. The pitch price is still visible
+          // above in the price-visual, so the page still reads well.
+          priceEl.classList.remove('live-loading');
+          priceEl.classList.add('live-error');
+          priceEl.innerHTML = '<a href="https://finance.yahoo.com/quote/' + symbol + '" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline;">View ' + symbol + ' on Yahoo &rarr;</a>';
+          returnEl.style.display = 'none';
+          console.warn('[live-ticker]', symbol, err && err.message ? err.message : err);
         }
-      }
+      }));
+
       updateScorecardUI();
     }
 
