@@ -238,6 +238,29 @@
     .download-row a::after { content: '\2193'; font-size: 1.1em; }
     .pitch-grid { grid-template-columns: 1fr; max-width: 580px; }
 
+    /* ===== LIVE PRICE TICKER ===== */
+    .live-ticker {
+      display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+      padding: var(--space-3) var(--space-4); margin-top: var(--space-3);
+      border-radius: var(--radius-lg);
+      background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface-2));
+      border: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+      font-size: var(--text-sm);
+    }
+    .live-ticker .live-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--color-positive);
+      display: inline-block; margin-right: 6px;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .live-ticker .live-label { font-weight: 600; color: var(--color-text-muted); display: flex; align-items: center; }
+    .live-ticker .live-price { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.02em; }
+    .live-ticker .live-return { font-weight: 800; font-size: var(--text-sm); padding: 0.2rem 0.6rem; border-radius: var(--radius-full); }
+    .live-ticker .live-return.up { background: color-mix(in srgb, var(--color-positive) 14%, var(--color-surface)); color: var(--color-positive); }
+    .live-ticker .live-return.down { background: color-mix(in srgb, var(--color-negative) 14%, var(--color-surface)); color: var(--color-negative); }
+    .live-ticker .live-loading { color: var(--color-text-faint); font-style: italic; }
+    .live-ticker .live-error { color: var(--color-text-faint); font-size: var(--text-xs); }
+
     /* ===== SKILLS ===== */
     .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
     .skill-card { text-align: center; padding: var(--space-6) var(--space-4); }
@@ -470,6 +493,11 @@
               <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-target" data-price-width="100"><span class="price-amount">$408.21</span></div></div></div>
             </div>
             <span class="upside-badge up">+18.6% upside from pitch</span>
+            <div class="live-ticker" data-ticker="GD" data-pitch="344.27">
+              <span class="live-label"><span class="live-dot"></span>Live</span>
+              <span class="live-price live-loading">Loading...</span>
+              <span class="live-return live-loading"></span>
+            </div>
             <div class="download-row"><a href="GD V4.xlsx" download>Download model</a></div>
           </article>
 
@@ -486,6 +514,11 @@
               <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-target" data-price-width="100"><span class="price-amount">$333.03</span></div></div></div>
             </div>
             <span class="upside-badge up">+32.6% upside from pitch</span>
+            <div class="live-ticker" data-ticker="FDX" data-pitch="251.08">
+              <span class="live-label"><span class="live-dot"></span>Live</span>
+              <span class="live-price live-loading">Loading...</span>
+              <span class="live-return live-loading"></span>
+            </div>
             <div class="download-row"><a href="FedEx final.xlsx" download>Download model</a></div>
           </article>
 
@@ -502,6 +535,11 @@
               <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-target" data-price-width="100"><span class="price-amount">$114.21</span></div></div></div>
             </div>
             <span class="upside-badge up">+12.9% upside from pitch</span>
+            <div class="live-ticker" data-ticker="NEM" data-pitch="101.15">
+              <span class="live-label"><span class="live-dot"></span>Live</span>
+              <span class="live-price live-loading">Loading...</span>
+              <span class="live-return live-loading"></span>
+            </div>
             <div class="download-row"><a href="Newmont mining NV.xlsx" download>Download model</a></div>
           </article>
         </div>
@@ -531,6 +569,11 @@
               <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-val-neg" data-price-width="50.2"><span class="price-amount">$140.65</span></div></div></div>
             </div>
             <span class="upside-badge down">-49.8% downside identified</span>
+            <div class="live-ticker" data-ticker="ECL" data-pitch="280.06" data-direction="sell">
+              <span class="live-label"><span class="live-dot"></span>Live</span>
+              <span class="live-price live-loading">Loading...</span>
+              <span class="live-return live-loading"></span>
+            </div>
             <div class="download-row"><a href="ecolab dcf final.xlsx" download>Download model</a></div>
           </article>
         </div>
@@ -786,6 +829,89 @@
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } });
     });
+
+    /* ===== LIVE STOCK PRICES ===== */
+    async function fetchLivePrices() {
+      const tickers = document.querySelectorAll('.live-ticker');
+      const symbols = Array.from(tickers).map(t => t.dataset.ticker);
+
+      for (const el of tickers) {
+        const symbol = el.dataset.ticker;
+        const pitchPrice = parseFloat(el.dataset.pitch);
+        const priceEl = el.querySelector('.live-price');
+        const returnEl = el.querySelector('.live-return');
+
+        try {
+          // Try Yahoo Finance v8 chart API
+          const resp = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`);
+          if (!resp.ok) throw new Error('Yahoo API failed');
+          const data = await resp.json();
+          const price = data.chart.result[0].meta.regularMarketPrice;
+
+          updateTicker(el, priceEl, returnEl, price, pitchPrice);
+        } catch (e1) {
+          try {
+            // Fallback: Yahoo Finance v6 quote
+            const resp2 = await fetch(`https://query2.finance.yahoo.com/v6/finance/quote?symbols=${symbol}`);
+            if (!resp2.ok) throw new Error('Fallback failed');
+            const data2 = await resp2.json();
+            const price2 = data2.quoteResponse.result[0].regularMarketPrice;
+
+            updateTicker(el, priceEl, returnEl, price2, pitchPrice);
+          } catch (e2) {
+            try {
+              // Fallback 2: finnhub free tier
+              const resp3 = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=demo`);
+              if (!resp3.ok) throw new Error('Finnhub failed');
+              const data3 = await resp3.json();
+              if (data3.c && data3.c > 0) {
+                updateTicker(el, priceEl, returnEl, data3.c, pitchPrice);
+              } else {
+                throw new Error('No data');
+              }
+            } catch (e3) {
+              // All APIs failed — show message
+              priceEl.classList.remove('live-loading');
+              priceEl.classList.add('live-error');
+              priceEl.textContent = 'Market closed';
+              returnEl.style.display = 'none';
+            }
+          }
+        }
+      }
+    }
+
+    function updateTicker(el, priceEl, returnEl, currentPrice, pitchPrice) {
+      const direction = el.dataset.direction || 'buy';
+      const changePct = ((currentPrice - pitchPrice) / pitchPrice * 100);
+
+      priceEl.classList.remove('live-loading');
+      priceEl.textContent = '$' + currentPrice.toFixed(2);
+      returnEl.classList.remove('live-loading');
+
+      if (direction === 'sell') {
+        // SELL case: show how much loss was avoided
+        const avoidedLoss = ((pitchPrice - currentPrice) / pitchPrice * 100);
+        if (currentPrice < pitchPrice) {
+          returnEl.classList.add('up');
+          returnEl.textContent = 'Avoided ' + avoidedLoss.toFixed(1) + '% loss';
+        } else {
+          returnEl.classList.add('down');
+          returnEl.textContent = 'Stock up +' + Math.abs(changePct).toFixed(1) + '% since';
+        }
+      } else {
+        // BUY case: show return since purchase
+        const isUp = changePct >= 0;
+        returnEl.classList.add(isUp ? 'up' : 'down');
+        returnEl.textContent = (isUp ? '+' : '') + changePct.toFixed(1) + '% since buy';
+      }
+    }
+
+    // Fetch on load
+    fetchLivePrices();
+    // Refresh every 60 seconds during market hours
+    setInterval(fetchLivePrices, 60000);
+
   })();
   </script>
 </body>
