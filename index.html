@@ -76,47 +76,30 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      min-height: 100dvh;
-      font-family: var(--font-body);
-      font-size: var(--text-base);
-      line-height: 1.65;
-      color: var(--color-text);
-      background: var(--color-bg);
-      overflow-x: hidden;
+      min-height: 100dvh; font-family: var(--font-body); font-size: var(--text-base);
+      line-height: 1.65; color: var(--color-text); background: var(--color-bg); overflow-x: hidden;
     }
     img, svg { display: block; max-width: 100%; }
     a { color: inherit; text-decoration: none; }
     button { border: none; background: none; font: inherit; cursor: pointer; }
     :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
 
-    /* ===== CANVAS BACKGROUND ===== */
-    #bg-canvas {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
-    }
+    /* ===== CANVAS ===== */
+    #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
     body > *:not(#bg-canvas) { position: relative; z-index: 1; }
 
     /* ===== SKIP LINK ===== */
-    .skip-link {
-      position: absolute; left: var(--space-4); top: -100px; background: var(--color-primary); color: var(--color-text-inverse);
-      padding: var(--space-3) var(--space-4); border-radius: var(--radius-full); z-index: 200;
-    }
+    .skip-link { position: absolute; left: var(--space-4); top: -100px; background: var(--color-primary); color: var(--color-text-inverse); padding: var(--space-3) var(--space-4); border-radius: var(--radius-full); z-index: 200; }
     .skip-link:focus { top: var(--space-4); }
 
-    /* ===== CONTAINER ===== */
+    /* ===== LAYOUT ===== */
     .container { width: min(calc(100% - 2rem), var(--content)); margin: 0 auto; }
 
     /* ===== EYEBROW ===== */
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: var(--space-2); padding: 0.45rem 0.8rem; border-radius: var(--radius-full);
-      background: var(--color-primary-soft); color: var(--color-primary); font-size: var(--text-xs); font-weight: 800;
-      letter-spacing: .08em; text-transform: uppercase;
-    }
+    .eyebrow { display: inline-flex; align-items: center; gap: var(--space-2); padding: 0.45rem 0.8rem; border-radius: var(--radius-full); background: var(--color-primary-soft); color: var(--color-primary); font-size: var(--text-xs); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 
-    /* ===== SCROLL REVEAL ===== */
-    .reveal {
-      opacity: 0; transform: translateY(32px);
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    /* ===== REVEAL ===== */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
     .reveal-delay-1 { transition-delay: 0.08s; }
     .reveal-delay-2 { transition-delay: 0.16s; }
@@ -124,13 +107,7 @@
     .reveal-delay-4 { transition-delay: 0.32s; }
 
     /* ===== HEADER ===== */
-    .site-header {
-      position: sticky; top: 0; z-index: 100; backdrop-filter: blur(18px) saturate(1.6);
-      -webkit-backdrop-filter: blur(18px) saturate(1.6);
-      background: color-mix(in srgb, var(--color-bg) 78%, transparent);
-      border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
-      transition: box-shadow 0.3s ease;
-    }
+    .site-header { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(18px) saturate(1.6); -webkit-backdrop-filter: blur(18px) saturate(1.6); background: color-mix(in srgb, var(--color-bg) 78%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); transition: box-shadow 0.3s ease; }
     .site-header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.06); }
     .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
     .brand { display: flex; align-items: center; gap: var(--space-3); font-weight: 800; }
@@ -138,42 +115,31 @@
     .brand:hover svg { transform: rotate(-5deg) scale(1.08); }
     .brand small { display: block; color: var(--color-text-muted); font-size: var(--text-xs); letter-spacing: .08em; text-transform: uppercase; }
     .nav-links { display: flex; gap: var(--space-1); align-items: center; flex-wrap: wrap; }
-    .nav-links a {
-      font-size: var(--text-sm); color: var(--color-text-muted); padding: 0.5rem 0.75rem; border-radius: var(--radius-full);
-      transition: color var(--transition), background var(--transition);
-    }
+    .nav-links a { font-size: var(--text-sm); color: var(--color-text-muted); padding: 0.5rem 0.75rem; border-radius: var(--radius-full); transition: color var(--transition), background var(--transition); }
     .nav-links a:hover { color: var(--color-text); background: var(--color-surface-2); }
     .nav-links a.active { color: var(--color-primary); background: var(--color-primary-soft); font-weight: 600; }
-    .theme-toggle {
-      width: 44px; height: 44px; border-radius: var(--radius-full); display: inline-flex; align-items: center; justify-content: center;
-      background: var(--color-surface); border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
-      box-shadow: var(--shadow-sm); transition: transform 0.3s ease, background 0.3s ease;
-    }
+    .theme-toggle { width: 44px; height: 44px; border-radius: var(--radius-full); display: inline-flex; align-items: center; justify-content: center; background: var(--color-surface); border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent); box-shadow: var(--shadow-sm); transition: transform 0.3s ease; }
     .theme-toggle:hover { transform: rotate(20deg); }
 
     /* ===== HERO ===== */
-    .hero { padding: clamp(var(--space-16), 11vw, var(--space-24)) 0 var(--space-16); }
-    .hero-grid { display: grid; grid-template-columns: 1.25fr .95fr; gap: var(--space-8); align-items: end; }
+    .hero { padding: clamp(var(--space-12), 8vw, var(--space-20)) 0 var(--space-12); }
+    .hero-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: var(--space-8); align-items: center; }
     h1, h2, h3 { font-family: var(--font-display); line-height: 1.04; letter-spacing: -0.03em; }
-    h1 { font-size: var(--text-3xl); max-width: 14ch; }
-    h1 .highlight {
-      background: linear-gradient(135deg, var(--color-primary), var(--color-gold));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    h1 { font-size: var(--text-3xl); max-width: 16ch; }
+    h1 .highlight { background: linear-gradient(135deg, var(--color-primary), var(--color-gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     h2 { font-size: var(--text-2xl); }
     .hero-copy { display: grid; gap: var(--space-5); }
     .hero-copy p, .section-intro { color: var(--color-text-muted); max-width: 62ch; }
-    .typed-cursor { display: inline-block; width: 3px; height: 1em; background: var(--color-primary); margin-left: 2px; animation: blink 1s step-end infinite; vertical-align: text-bottom; }
-    @keyframes blink { 50% { opacity: 0; } }
+    .actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+    /* ===== STAT STRIP ===== */
+    .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); margin-top: var(--space-10); padding: var(--space-6) 0; border-top: 1px solid var(--color-divider); border-bottom: 1px solid var(--color-divider); }
+    .stat-item { text-align: center; }
+    .stat-value { display: block; font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: -0.02em; line-height: 1.1; }
+    .stat-label { display: block; font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-1); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
 
     /* ===== BUTTONS ===== */
-    .actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
-    .btn {
-      min-height: 48px; padding: .9rem 1.4rem; border-radius: var(--radius-full); display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
-      font-size: var(--text-sm); font-weight: 800; position: relative; overflow: hidden;
-      transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition);
-    }
+    .btn { min-height: 48px; padding: .9rem 1.4rem; border-radius: var(--radius-full); display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-size: var(--text-sm); font-weight: 800; position: relative; overflow: hidden; transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition); }
     .btn:hover { transform: translateY(-2px); }
     .btn:active { transform: translateY(0); }
     .btn-primary { background: var(--color-primary); color: var(--color-text-inverse); }
@@ -183,97 +149,110 @@
     .btn .btn-icon { display: inline-flex; transition: transform 0.3s ease; }
     .btn:hover .btn-icon { transform: translateX(3px); }
 
-    /* ===== CARDS & PANELS ===== */
+    /* ===== CARDS ===== */
     .panel, .card, .metric, .resume-card, .sector-card, .contact-card, .skill-card {
       background: color-mix(in srgb, var(--color-surface) 92%, transparent);
       border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-md);
+      border-radius: var(--radius-xl); box-shadow: var(--shadow-md);
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
     }
-    .card:hover, .metric:hover, .sector-card:hover, .skill-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-      border-color: color-mix(in srgb, var(--color-primary) 30%, var(--color-border));
-    }
+    .card:hover, .metric:hover, .sector-card:hover, .skill-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--color-primary) 30%, var(--color-border)); }
     .panel { padding: var(--space-6); display: grid; gap: var(--space-4); }
-    .hero-points { list-style: none; display: grid; gap: var(--space-4); }
-    .hero-points li { padding-bottom: var(--space-4); border-bottom: 1px solid var(--color-divider); transition: padding-left 0.3s ease; }
-    .hero-points li:hover { padding-left: 0.5rem; }
-    .hero-points li:last-child { border-bottom: none; padding-bottom: 0; }
-    .hero-points strong { display: block; color: var(--color-text); }
 
     /* ===== SECTIONS ===== */
-    .section { padding: var(--space-20) 0; }
+    .section { padding: var(--space-16) 0; }
     .section-head { display: flex; align-items: end; justify-content: space-between; gap: var(--space-5); margin-bottom: var(--space-10); }
-    .section-divider {
-      width: 60px; height: 3px; border-radius: var(--radius-full);
-      background: linear-gradient(90deg, var(--color-primary), var(--color-gold));
-      margin-top: var(--space-3);
-    }
+    .section-divider { width: 60px; height: 3px; border-radius: var(--radius-full); background: linear-gradient(90deg, var(--color-primary), var(--color-gold)); margin-top: var(--space-3); }
 
     /* ===== GRIDS ===== */
     .grid-2 { display: grid; grid-template-columns: 1.15fr .85fr; gap: var(--space-6); }
     .resume-card, .contact-card, .card, .sector-card, .skill-card { padding: var(--space-6); }
-    .resume-list, .project-metrics, .note-list { list-style: none; display: grid; gap: var(--space-3); }
-    .resume-list li, .project-metrics li, .note-list li { position: relative; padding-left: 1.15rem; color: var(--color-text-muted); }
-    .resume-list li::before, .project-metrics li::before, .note-list li::before {
-      content: ''; width: .45rem; height: .45rem; border-radius: 50%; background: var(--color-primary); position: absolute; left: 0; top: .65rem;
-    }
-    .chip-row { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
-    .chip {
-      padding: .55rem .8rem; border-radius: var(--radius-full); background: var(--color-surface-2);
-      border: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); font-size: var(--text-xs); font-weight: 800;
-      transition: background 0.3s ease, transform 0.3s ease;
-    }
-    .chip:hover { background: var(--color-primary-soft); transform: translateY(-2px); }
-
-    /* ===== METRICS ===== */
-    .metrics-grid, .sector-grid, .project-grid, .pitch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
-    .metric { padding: var(--space-5); text-align: center; }
-    .metric strong { display: block; font-size: var(--text-xl); font-family: var(--font-display); margin-top: var(--space-2); }
-    .metric span, .muted { color: var(--color-text-muted); }
+    .muted { color: var(--color-text-muted); }
     .positive { color: var(--color-positive); }
     .negative { color: var(--color-negative); }
 
-    /* ===== SECTOR CARDS ===== */
-    .sector-card h3, .card h3, .resume-card h3, .contact-card h3, .skill-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-3); }
+    /* ===== SECTOR COMPARISON CHART ===== */
+    .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-bottom: var(--space-8); }
+    .chart-card { padding: var(--space-6); }
+    .chart-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-2); }
+    .chart-delta { font-size: var(--text-sm); font-weight: 800; margin-bottom: var(--space-5); }
+    .bar-group { margin-bottom: var(--space-4); }
+    .bar-group:last-child { margin-bottom: 0; }
+    .bar-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-2); font-size: var(--text-sm); }
+    .bar-label strong { font-family: var(--font-display); font-size: var(--text-lg); }
+    .bar-track { height: 28px; background: var(--color-surface-2); border-radius: var(--radius-full); overflow: hidden; position: relative; }
+    .bar-fill { height: 100%; border-radius: var(--radius-full); width: 0%; transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    .bar-fill-primary { background: linear-gradient(90deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, var(--color-gold))); }
+    .bar-fill-muted { background: var(--color-surface-offset); }
+    .chart-legend { display: flex; gap: var(--space-4); margin-top: var(--space-3); font-size: var(--text-xs); color: var(--color-text-muted); }
+    .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: var(--space-1); vertical-align: middle; }
+    .legend-dot-primary { background: var(--color-primary); }
+    .legend-dot-muted { background: var(--color-surface-offset); }
+
+    /* ===== METRICS ROW ===== */
+    .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+    .metric { padding: var(--space-5); text-align: center; }
+    .metric strong { display: block; font-size: var(--text-xl); font-family: var(--font-display); margin-top: var(--space-2); }
+    .metric span { color: var(--color-text-muted); }
+
+    /* ===== SECTOR DETAIL CARDS ===== */
+    .sector-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-5); }
+    .sector-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-3); }
     .sector-stats { display: grid; gap: var(--space-3); margin-top: var(--space-4); }
     .sector-stats div { display: flex; justify-content: space-between; gap: var(--space-3); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-divider); }
     .sector-stats div:last-child { border-bottom: none; padding-bottom: 0; }
 
-    /* ===== TAGS ===== */
+    /* ===== MODEL CARDS ===== */
+    .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+    .card { display: grid; gap: var(--space-4); min-height: 100%; }
+    .card h3 { font-size: var(--text-xl); margin-bottom: var(--space-2); }
+    .project-meta { display: flex; justify-content: space-between; gap: var(--space-3); align-items: flex-start; }
+    .project-meta small { display: block; color: var(--color-text-muted); font-size: var(--text-xs); letter-spacing: .08em; text-transform: uppercase; }
     .tag-row { display: flex; gap: var(--space-2); flex-wrap: wrap; }
     .tag { font-size: var(--text-xs); font-weight: 800; padding: .4rem .75rem; border-radius: var(--radius-full); }
     .tag-buy { background: color-mix(in srgb, var(--color-positive) 14%, var(--color-surface)); color: var(--color-positive); }
     .tag-sell { background: color-mix(in srgb, var(--color-negative) 14%, var(--color-surface)); color: var(--color-negative); }
     .tag-neutral { background: var(--color-primary-soft); color: var(--color-primary); }
 
-    /* ===== PROJECT CARDS ===== */
-    .card { display: grid; gap: var(--space-4); min-height: 100%; }
-    .project-meta { display: flex; justify-content: space-between; gap: var(--space-3); align-items: flex-start; }
-    .project-meta small { display: block; color: var(--color-text-muted); font-size: var(--text-xs); letter-spacing: .08em; text-transform: uppercase; }
+    /* ===== PRICE TARGET VISUAL ===== */
+    .price-visual { margin: var(--space-3) 0; }
+    .price-row { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); font-size: var(--text-sm); }
+    .price-row:last-child { margin-bottom: 0; }
+    .price-label { width: 100px; flex-shrink: 0; color: var(--color-text-muted); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+    .price-bar-track { flex: 1; height: 22px; background: var(--color-surface-2); border-radius: var(--radius-full); overflow: hidden; position: relative; }
+    .price-bar { height: 100%; border-radius: var(--radius-full); width: 0%; transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; }
+    .price-bar-pitch { background: var(--color-surface-offset); }
+    .price-bar-val { background: linear-gradient(90deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, var(--color-gold))); }
+    .price-bar-target { background: linear-gradient(90deg, var(--color-gold), color-mix(in srgb, var(--color-gold) 80%, var(--color-positive))); }
+    .price-bar-val-neg { background: linear-gradient(90deg, color-mix(in srgb, var(--color-negative) 60%, var(--color-surface-offset)), var(--color-negative)); }
+    .price-amount { font-weight: 800; font-size: var(--text-xs); white-space: nowrap; color: var(--color-text); }
+    .price-bar .price-amount { color: var(--color-text-inverse); }
+    .price-bar-pitch .price-amount { color: var(--color-text-muted); }
+    .upside-badge { display: inline-flex; align-items: center; gap: 4px; margin-top: var(--space-2); padding: 0.3rem 0.7rem; border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 800; }
+    .upside-badge.up { background: color-mix(in srgb, var(--color-positive) 12%, var(--color-surface)); color: var(--color-positive); }
+    .upside-badge.down { background: color-mix(in srgb, var(--color-negative) 12%, var(--color-surface)); color: var(--color-negative); }
+
     .download-row { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--space-2); }
-    .download-row a {
-      font-size: var(--text-sm); font-weight: 800; color: var(--color-primary);
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      transition: gap 0.3s ease;
-    }
+    .download-row a { font-size: var(--text-sm); font-weight: 800; color: var(--color-primary); display: inline-flex; align-items: center; gap: 0.4rem; transition: gap 0.3s ease; }
     .download-row a:hover { gap: 0.7rem; }
     .download-row a::after { content: '\2193'; font-size: 1.1em; }
-    .pitch-grid { grid-template-columns: repeat(2, 1fr); }
+    .pitch-grid { grid-template-columns: 1fr; max-width: 580px; }
 
-    /* ===== SKILLS SECTION ===== */
+    /* ===== SKILLS ===== */
     .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
     .skill-card { text-align: center; padding: var(--space-6) var(--space-4); }
     .skill-icon { font-size: 2rem; margin-bottom: var(--space-3); }
     .skill-card h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
     .skill-bar-wrap { margin-top: var(--space-3); height: 6px; background: var(--color-surface-2); border-radius: var(--radius-full); overflow: hidden; }
-    .skill-bar {
-      height: 100%; border-radius: var(--radius-full); width: 0%;
-      background: linear-gradient(90deg, var(--color-primary), var(--color-gold));
-      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    .skill-bar { height: 100%; border-radius: var(--radius-full); width: 0%; background: linear-gradient(90deg, var(--color-primary), var(--color-gold)); transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    /* ===== RESUME ===== */
+    .resume-list, .note-list { list-style: none; display: grid; gap: var(--space-3); }
+    .resume-list li, .note-list li { position: relative; padding-left: 1.15rem; color: var(--color-text-muted); }
+    .resume-list li::before, .note-list li::before { content: ''; width: .45rem; height: .45rem; border-radius: 50%; background: var(--color-primary); position: absolute; left: 0; top: .65rem; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+    .chip { padding: .55rem .8rem; border-radius: var(--radius-full); background: var(--color-surface-2); border: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); font-size: var(--text-xs); font-weight: 800; transition: background 0.3s ease, transform 0.3s ease; }
+    .chip:hover { background: var(--color-primary-soft); transform: translateY(-2px); }
 
     /* ===== CONTACT ===== */
     .contact-list { list-style: none; display: grid; gap: var(--space-4); margin-top: var(--space-4); }
@@ -283,46 +262,36 @@
     .contact-list a:hover { color: var(--color-primary); }
 
     /* ===== FOOTER ===== */
-    .footer {
-      padding: var(--space-10) 0; color: var(--color-text-muted);
-      border-top: 1px solid var(--color-divider);
-    }
+    .footer { padding: var(--space-10) 0; color: var(--color-text-muted); border-top: 1px solid var(--color-divider); }
     .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4); }
     .footer-links { display: flex; gap: var(--space-4); }
     .footer-links a { font-size: var(--text-sm); transition: color 0.3s ease; }
     .footer-links a:hover { color: var(--color-primary); }
 
     /* ===== SCROLL PROGRESS ===== */
-    .scroll-progress {
-      position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
-      background: linear-gradient(90deg, var(--color-primary), var(--color-gold));
-      width: 0%; transition: width 0.1s linear;
-    }
+    .scroll-progress { position: fixed; top: 0; left: 0; height: 3px; z-index: 200; background: linear-gradient(90deg, var(--color-primary), var(--color-gold)); width: 0%; transition: width 0.1s linear; }
 
     /* ===== BACK TO TOP ===== */
-    .back-to-top {
-      position: fixed; bottom: 2rem; right: 2rem; width: 48px; height: 48px; border-radius: var(--radius-full);
-      background: var(--color-primary); color: var(--color-text-inverse);
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow-lg); z-index: 90;
-      opacity: 0; transform: translateY(20px); pointer-events: none;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
+    .back-to-top { position: fixed; bottom: 2rem; right: 2rem; width: 48px; height: 48px; border-radius: var(--radius-full); background: var(--color-primary); color: var(--color-text-inverse); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-lg); z-index: 90; opacity: 0; transform: translateY(20px); pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
     .back-to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
     .back-to-top:hover { background: var(--color-primary-hover); transform: translateY(-2px); }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1040px) {
-      .hero-grid, .grid-2, .project-grid, .metrics-grid, .sector-grid, .pitch-grid { grid-template-columns: 1fr; }
+      .hero-grid, .grid-2, .project-grid, .chart-grid, .sector-grid { grid-template-columns: 1fr; }
       .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .metrics-row { grid-template-columns: 1fr; }
+      .stat-strip { grid-template-columns: repeat(2, 1fr); }
       .section-head { flex-direction: column; align-items: flex-start; }
     }
     @media (max-width: 760px) {
       .nav { min-height: auto; padding: var(--space-4) 0; align-items: flex-start; flex-direction: column; }
       .nav-links { width: 100%; justify-content: space-between; }
       .hero, .section { padding-block: var(--space-12); }
-      h1 { max-width: 14ch; }
+      h1 { max-width: 16ch; }
       .skills-grid { grid-template-columns: 1fr; }
+      .stat-strip { grid-template-columns: 1fr 1fr; }
+      .price-label { width: 70px; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -332,12 +301,8 @@
   </style>
 </head>
 <body>
-  <!-- Animated background canvas -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
-
-  <!-- Scroll progress bar -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
-
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- ===== HEADER ===== -->
@@ -349,17 +314,14 @@
           <path d="M18 40L28 24L36 35L46 20" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="46" cy="20" r="4" fill="currentColor"/>
         </svg>
-        <span>
-          Sravan Vemireddy
-          <small>Equity Research Portfolio</small>
-        </span>
+        <span>Sravan Vemireddy<small>Equity Research</small></span>
       </a>
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#resume">Resume</a>
-        <a href="#skills">Skills</a>
         <a href="#coverage">Coverage</a>
         <a href="#models">Models</a>
         <a href="#pitched">Pitched</a>
+        <a href="#skills">Skills</a>
+        <a href="#about">About</a>
         <a href="#contact">Contact</a>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -371,142 +333,99 @@
   <main id="main">
     <!-- ===== HERO ===== -->
     <section class="hero" id="top">
-      <div class="container hero-grid">
-        <div class="hero-copy reveal">
-          <span class="eyebrow">Industrials &amp; Materials Focus</span>
-          <h1>Equity research built on <span class="highlight">valuation depth</span> and investment judgment.</h1>
-          <p>
-            Sravan Kumar Reddy Vemireddy is an Equity Research Analyst at the $9.8M Mayer Fund covering Industrials and Materials, with 7+ years of experience building financial models, forecasts, and operating analyses across complex businesses. This portfolio showcases rigorous valuation work, sector-based research, and the communication standard expected in investment and analyst roles — backed by an entrepreneurial background shaped by founder and operator experience across infrastructure and consumer businesses.
-          </p>
-          <div class="actions">
-            <a class="btn btn-primary" href="#models">
-              View featured models
-              <span class="btn-icon" aria-hidden="true">&rarr;</span>
-            </a>
-            <a class="btn btn-secondary" href="Sravan_Vemireddy_Equity_Research_Resume.pdf" download>Download resume</a>
-          </div>
-        </div>
-        <aside class="panel reveal reveal-delay-2" aria-label="Portfolio snapshot">
-          <span class="eyebrow">Snapshot</span>
-          <ul class="hero-points">
-            <li><strong>Current platform</strong><span class="muted">Equity Research Analyst &middot; $9.8M Mayer Fund</span></li>
-            <li><strong>Coverage universe</strong><span class="muted">Industrials and Materials</span></li>
-            <li><strong>Featured DCF models</strong><span class="muted">General Dynamics &middot; FedEx &middot; Newmont</span></li>
-            <li><strong>Technical toolkit</strong><span class="muted">Advanced Excel &middot; Bloomberg &middot; Python &middot; SQL</span></li>
-            <li><strong>Additional pitched name</strong><span class="muted">Ecolab</span></li>
-          </ul>
-        </aside>
-      </div>
-    </section>
-
-    <!-- ===== RESUME ===== -->
-    <section class="section" id="resume">
-      <div class="container grid-2">
-        <div class="reveal">
-          <span class="eyebrow">Resume</span>
-          <h2 style="margin-top:.75rem;">Research, valuation, and communication presented in one place.</h2>
-          <div class="section-divider"></div>
-          <p class="section-intro" style="margin-top:1rem;">
-            The site brings together sector coverage, valuation work, and supporting files in a format that is easy to review and easy to share.
-          </p>
-          <article class="resume-card" style="margin-top:1.5rem;">
-            <h3>What this portfolio highlights</h3>
-            <ul class="resume-list">
-              <li>Company-level valuation work presented with sector context and direct access to supporting workbooks.</li>
-              <li>Coverage centered on Industrials and Materials, with selected work framed as focused investment case studies.</li>
-              <li>Clear access to resume, LinkedIn, and underlying DCF files so a reviewer can quickly validate both narrative quality and technical depth.</li>
-            </ul>
-            <div class="chip-row">
-              <span class="chip">DCF Valuation</span>
-              <span class="chip">Bottom-up Modeling</span>
-              <span class="chip">Sector Analysis</span>
-              <span class="chip">Sensitivity Work</span>
-              <span class="chip">Investment Views</span>
-              <span class="chip">20+ Companies Modeled</span>
-              <span class="chip">MBA STEM &middot; Smith Fellow</span>
-            </div>
-          </article>
-        </div>
-        <aside>
-          <article class="resume-card reveal reveal-delay-1">
-            <h3>Key materials</h3>
-            <p class="muted">All key materials are placed directly on the page so an external reviewer can move from headline to workbook without friction.</p>
-            <div class="download-row" style="margin-top:1rem;">
-              <a href="Sravan_Vemireddy_Equity_Research_Resume.pdf" download>Resume PDF</a>
-            </div>
-          </article>
-          <article class="resume-card reveal reveal-delay-2" style="margin-top:1.25rem;">
-            <h3>Profile</h3>
-            <ul class="contact-list">
-              <li><strong>Email</strong><br><span class="muted">svemired@umd.edu</span></li>
-              <li><strong>LinkedIn</strong><br><a class="muted" href="https://www.linkedin.com/in/sravanvemireddy/" target="_blank" rel="noopener noreferrer">linkedin.com/in/sravanvemireddy</a></li>
-              <li><strong>Background</strong><br><span class="muted">MBA candidate at the University of Maryland Smith School with prior founder-operator experience and financial modeling depth across infrastructure, operations, and valuation.</span></li>
-            </ul>
-          </article>
-        </aside>
-      </div>
-    </section>
-
-    <!-- ===== SKILLS ===== -->
-    <section class="section" id="skills">
       <div class="container">
-        <div class="section-head reveal">
-          <div>
-            <span class="eyebrow">Technical skills</span>
-            <h2>Tools and capabilities.</h2>
-            <div class="section-divider"></div>
+        <div class="hero-grid">
+          <div class="hero-copy reveal">
+            <span class="eyebrow">Industrials &amp; Materials</span>
+            <h1>Equity research built on <span class="highlight">valuation depth</span> and investment judgment.</h1>
+            <p>Equity Research Analyst at the Mayer Fund covering Industrials and Materials. 7+ years building financial models and investment cases across complex businesses. MBA candidate at UMD Smith School.</p>
+            <div class="actions">
+              <a class="btn btn-primary" href="#models">View featured models <span class="btn-icon" aria-hidden="true">&rarr;</span></a>
+              <a class="btn btn-secondary" href="Sravan_Vemireddy_Equity_Research_Resume.pdf" download>Download resume</a>
+            </div>
           </div>
-          <p class="section-intro">Core competencies developed across 7+ years of financial modeling, research, and data analysis.</p>
+          <aside class="panel reveal reveal-delay-2" aria-label="Portfolio snapshot">
+            <span class="eyebrow">Snapshot</span>
+            <ul style="list-style:none; display:grid; gap:var(--space-4);">
+              <li style="padding-bottom:var(--space-4); border-bottom:1px solid var(--color-divider);"><strong style="display:block;">Platform</strong><span class="muted">$9.8M Mayer Fund</span></li>
+              <li style="padding-bottom:var(--space-4); border-bottom:1px solid var(--color-divider);"><strong style="display:block;">Coverage</strong><span class="muted">Industrials &amp; Materials</span></li>
+              <li style="padding-bottom:var(--space-4); border-bottom:1px solid var(--color-divider);"><strong style="display:block;">Featured models</strong><span class="muted">GD &middot; FDX &middot; NEM &middot; ECL</span></li>
+              <li><strong style="display:block;">Toolkit</strong><span class="muted">Excel &middot; Bloomberg &middot; Python &middot; SQL</span></li>
+            </ul>
+          </aside>
         </div>
-        <div class="skills-grid">
-          <article class="skill-card reveal reveal-delay-1">
-            <div class="skill-icon" aria-hidden="true">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
-            </div>
-            <h3>Financial Modeling</h3>
-            <p class="muted" style="font-size:var(--text-sm)">DCF, FCFE/FCFF, comps, LBO, sensitivity &amp; scenario analysis</p>
-            <div class="skill-bar-wrap"><div class="skill-bar" data-width="95"></div></div>
-          </article>
-          <article class="skill-card reveal reveal-delay-2">
-            <div class="skill-icon" aria-hidden="true">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            </div>
-            <h3>Bloomberg Terminal</h3>
-            <p class="muted" style="font-size:var(--text-sm)">Market data, screening, equity analysis, fixed income functions</p>
-            <div class="skill-bar-wrap"><div class="skill-bar" data-width="90"></div></div>
-          </article>
-          <article class="skill-card reveal reveal-delay-3">
-            <div class="skill-icon" aria-hidden="true">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            </div>
-            <h3>Python &amp; SQL</h3>
-            <p class="muted" style="font-size:var(--text-sm)">Data analysis, automation, pandas, financial data pipelines</p>
-            <div class="skill-bar-wrap"><div class="skill-bar" data-width="80"></div></div>
-          </article>
-          <article class="skill-card reveal reveal-delay-4">
-            <div class="skill-icon" aria-hidden="true">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            </div>
-            <h3>Research Writing</h3>
-            <p class="muted" style="font-size:var(--text-sm)">Investment memos, sector primers, earnings analysis, pitch decks</p>
-            <div class="skill-bar-wrap"><div class="skill-bar" data-width="92"></div></div>
-          </article>
+
+        <!-- STAT STRIP -->
+        <div class="stat-strip reveal reveal-delay-3">
+          <div class="stat-item">
+            <span class="stat-value">4</span>
+            <span class="stat-label">Companies Covered</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">3 / 1</span>
+            <span class="stat-label">BUY / SELL</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value positive">+26.5 pts</span>
+            <span class="stat-label">Industrials Alpha</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">$9.8M</span>
+            <span class="stat-label">Fund AUM</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== COVERAGE ===== -->
+    <!-- ===== SECTOR COVERAGE ===== -->
     <section class="section" id="coverage">
       <div class="container">
         <div class="section-head reveal">
           <div>
             <span class="eyebrow">Sector coverage</span>
-            <h2>How the covered sectors performed against the S&amp;P 500.</h2>
+            <h2>Mayer Fund vs. S&amp;P 500 sector returns.</h2>
             <div class="section-divider"></div>
           </div>
-          <p class="section-intro">This section adds market context to the portfolio and shows how company work fits inside broader sector coverage.</p>
         </div>
-        <div class="metrics-grid">
+
+        <!-- BAR CHARTS -->
+        <div class="chart-grid">
+          <article class="sector-card chart-card reveal">
+            <h3>Industrials</h3>
+            <div class="chart-delta positive">+26.54 pts outperformance</div>
+            <div class="bar-group">
+              <div class="bar-label"><span>Mayer Fund</span><strong class="positive">49.96%</strong></div>
+              <div class="bar-track"><div class="bar-fill bar-fill-primary" data-bar-width="100"></div></div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-label"><span>S&amp;P 500 Industrials</span><strong>23.42%</strong></div>
+              <div class="bar-track"><div class="bar-fill bar-fill-muted" data-bar-width="47"></div></div>
+            </div>
+            <div class="chart-legend">
+              <span><span class="legend-dot legend-dot-primary"></span>Mayer Fund</span>
+              <span><span class="legend-dot legend-dot-muted"></span>S&amp;P 500</span>
+            </div>
+          </article>
+          <article class="sector-card chart-card reveal reveal-delay-1">
+            <h3>Materials</h3>
+            <div class="chart-delta negative">-8.94 pts vs benchmark</div>
+            <div class="bar-group">
+              <div class="bar-label"><span>Mayer Fund</span><strong>6.90%</strong></div>
+              <div class="bar-track"><div class="bar-fill bar-fill-primary" data-bar-width="44"></div></div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-label"><span>S&amp;P 500 Materials</span><strong>15.84%</strong></div>
+              <div class="bar-track"><div class="bar-fill bar-fill-muted" data-bar-width="100"></div></div>
+            </div>
+            <div class="chart-legend">
+              <span><span class="legend-dot legend-dot-primary"></span>Mayer Fund</span>
+              <span><span class="legend-dot legend-dot-muted"></span>S&amp;P 500</span>
+            </div>
+          </article>
+        </div>
+
+        <!-- METRICS -->
+        <div class="metrics-row">
           <article class="metric reveal">
             <span>Portfolio YTD</span>
             <strong><span class="counter" data-target="15.75" data-suffix="%">0%</span></strong>
@@ -523,34 +442,6 @@
             <span>Mayer 6.90% vs S&amp;P 15.84%</span>
           </article>
         </div>
-        <div class="sector-grid" style="margin-top:1.5rem;">
-          <article class="sector-card reveal">
-            <h3>Industrials</h3>
-            <p class="muted">The report shows strong relative outperformance in Industrials, making it a strong anchor sector for the portfolio narrative.</p>
-            <div class="sector-stats">
-              <div><span class="muted">Mayer return</span><strong class="positive">49.96%</strong></div>
-              <div><span class="muted">S&amp;P 500 sector return</span><strong>23.42%</strong></div>
-              <div><span class="muted">Relative performance</span><strong class="positive">+26.54 pts</strong></div>
-            </div>
-          </article>
-          <article class="sector-card reveal reveal-delay-1">
-            <h3>Materials</h3>
-            <p class="muted">Materials adds useful diversification to the coverage profile and shows a second valuation context outside industrials and defense.</p>
-            <div class="sector-stats">
-              <div><span class="muted">Mayer return</span><strong>6.90%</strong></div>
-              <div><span class="muted">S&amp;P 500 sector return</span><strong>15.84%</strong></div>
-              <div><span class="muted">Relative performance</span><strong class="negative">-8.94 pts</strong></div>
-            </div>
-          </article>
-          <article class="sector-card reveal reveal-delay-2">
-            <h3>Sector perspective</h3>
-            <ul class="note-list">
-              <li>The sector view reinforces that the portfolio reflects coverage responsibility, not just isolated stock work.</li>
-              <li>It also gives a quick read on where relative performance was strongest during the full-year period.</li>
-              <li>That helps connect single-name valuation work to broader investment discussion and sector awareness.</li>
-            </ul>
-          </article>
-        </div>
       </div>
     </section>
 
@@ -563,73 +454,55 @@
             <h2>Selected valuation work.</h2>
             <div class="section-divider"></div>
           </div>
-          <p class="section-intro">The featured section is deliberately curated to show range across defense, logistics, and mining while keeping the presentation concise and investment-focused.</p>
+          <p class="section-intro">Curated to show range across defense, logistics, and mining with full DCF frameworks and downloadable workbooks.</p>
         </div>
         <div class="project-grid">
+          <!-- GD -->
           <article class="card reveal">
             <div class="project-meta">
-              <div>
-                <small>March 30, 2026</small>
-                <h3>General Dynamics</h3>
-              </div>
-              <div class="tag-row">
-                <span class="tag tag-buy">BUY</span>
-                <span class="tag tag-neutral">Industrials</span>
-              </div>
+              <div><small>March 30, 2026</small><h3>General Dynamics</h3></div>
+              <div class="tag-row"><span class="tag tag-buy">BUY</span><span class="tag tag-neutral">Industrials</span></div>
             </div>
-            <p class="muted">Bottom-up FCFE valuation across Aerospace, Marine Systems, Combat Systems, and Technologies, built to show segment drivers, scenario sensitivity, and price-target logic.</p>
-            <ul class="project-metrics">
-              <li>Price on pitch date: $340.71</li>
-              <li>Valuation price: $388.20</li>
-              <li>12-month target: $408.21</li>
-            </ul>
-            <div class="download-row">
-              <a href="GD V4.xlsx" download>Download Excel model</a>
+            <p class="muted" style="font-size:var(--text-sm)">Bottom-up FCFE valuation across Aerospace, Marine Systems, Combat Systems, and Technologies with segment-level drivers and scenario sensitivity.</p>
+            <div class="price-visual">
+              <div class="price-row"><span class="price-label">Pitch price</span><div class="price-bar-track"><div class="price-bar price-bar-pitch" data-price-width="84.4"><span class="price-amount">$344.27</span></div></div></div>
+              <div class="price-row"><span class="price-label">Valuation</span><div class="price-bar-track"><div class="price-bar price-bar-val" data-price-width="95.1"><span class="price-amount">$388.20</span></div></div></div>
+              <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-target" data-price-width="100"><span class="price-amount">$408.21</span></div></div></div>
             </div>
+            <span class="upside-badge up">+18.6% upside from pitch</span>
+            <div class="download-row"><a href="GD V4.xlsx" download>Download model</a></div>
           </article>
 
+          <!-- FDX -->
           <article class="card reveal reveal-delay-1">
             <div class="project-meta">
-              <div>
-                <small>October 9, 2025</small>
-                <h3>FedEx</h3>
-              </div>
-              <div class="tag-row">
-                <span class="tag tag-buy">BUY</span>
-                <span class="tag tag-neutral">Industrials</span>
-              </div>
+              <div><small>October 9, 2025</small><h3>FedEx</h3></div>
+              <div class="tag-row"><span class="tag tag-buy">BUY</span><span class="tag tag-neutral">Industrials</span></div>
             </div>
-            <p class="muted">FedEx is presented as a BUY call supported by package-volume assumptions, revenue-per-package analysis, operating-cost drivers, and a full DCF framework.</p>
-            <ul class="project-metrics">
-              <li>Price on pitch date: $249.00</li>
-              <li>Valuation price: $302.75</li>
-              <li>12-month target: $333.03</li>
-            </ul>
-            <div class="download-row">
-              <a href="FedEx final.xlsx" download>Download Excel model</a>
+            <p class="muted" style="font-size:var(--text-sm)">BUY call supported by package-volume assumptions, revenue-per-package analysis, operating-cost drivers, and a full DCF framework.</p>
+            <div class="price-visual">
+              <div class="price-row"><span class="price-label">Pitch price</span><div class="price-bar-track"><div class="price-bar price-bar-pitch" data-price-width="75.4"><span class="price-amount">$251.08</span></div></div></div>
+              <div class="price-row"><span class="price-label">Valuation</span><div class="price-bar-track"><div class="price-bar price-bar-val" data-price-width="90.9"><span class="price-amount">$302.75</span></div></div></div>
+              <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-target" data-price-width="100"><span class="price-amount">$333.03</span></div></div></div>
             </div>
+            <span class="upside-badge up">+32.6% upside from pitch</span>
+            <div class="download-row"><a href="FedEx final.xlsx" download>Download model</a></div>
           </article>
 
+          <!-- NEM -->
           <article class="card reveal reveal-delay-2">
             <div class="project-meta">
-              <div>
-                <small>February 10, 2026</small>
-                <h3>Newmont</h3>
-              </div>
-              <div class="tag-row">
-                <span class="tag tag-buy">BUY</span>
-                <span class="tag tag-neutral">Materials</span>
-              </div>
+              <div><small>February 10, 2026</small><h3>Newmont</h3></div>
+              <div class="tag-row"><span class="tag tag-buy">BUY</span><span class="tag tag-neutral">Materials</span></div>
             </div>
-            <p class="muted">Newmont adds commodity-linked valuation work to the portfolio, showing a BUY view at the time with mining-specific assumptions, commodity sensitivity, and a full valuation framework.</p>
-            <ul class="project-metrics">
-              <li>Price on pitch date: $101.00</li>
-              <li>Valuation price: $92.81</li>
-              <li>12-month target: $98.26</li>
-            </ul>
-            <div class="download-row">
-              <a href="Newmont mining NV.xlsx" download>Download Excel model</a>
+            <p class="muted" style="font-size:var(--text-sm)">Commodity-linked valuation with mining-specific assumptions, commodity sensitivity, and a full valuation framework.</p>
+            <div class="price-visual">
+              <div class="price-row"><span class="price-label">Pitch price</span><div class="price-bar-track"><div class="price-bar price-bar-pitch" data-price-width="100"><span class="price-amount">$101.15</span></div></div></div>
+              <div class="price-row"><span class="price-label">Valuation</span><div class="price-bar-track"><div class="price-bar price-bar-val" data-price-width="91.8"><span class="price-amount">$92.81</span></div></div></div>
+              <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-target" data-price-width="97.1"><span class="price-amount">$98.26</span></div></div></div>
             </div>
+            <span class="upside-badge down">-2.9% from pitch (BUY at time)</span>
+            <div class="download-row"><a href="Newmont mining NV.xlsx" download>Download model</a></div>
           </article>
         </div>
       </div>
@@ -640,44 +513,111 @@
       <div class="container">
         <div class="section-head reveal">
           <div>
-            <span class="eyebrow">More companies pitched</span>
-            <h2>Additional pitched company work.</h2>
+            <span class="eyebrow">Additional pitch</span>
+            <h2>Ecolab &mdash; SELL case.</h2>
             <div class="section-divider"></div>
           </div>
-          <p class="section-intro">This section keeps the main page curated while still showing a broader stream of pitched company work.</p>
         </div>
         <div class="pitch-grid">
           <article class="card reveal">
             <div class="project-meta">
-              <div>
-                <small>October 23, 2025</small>
-                <h3>Ecolab</h3>
-              </div>
-              <div class="tag-row">
-                <span class="tag tag-sell">SELL</span>
-                <span class="tag tag-neutral">Materials</span>
-              </div>
+              <div><small>October 23, 2025</small><h3>Ecolab</h3></div>
+              <div class="tag-row"><span class="tag tag-sell">SELL</span><span class="tag tag-neutral">Materials</span></div>
             </div>
-            <p class="muted">Ecolab is presented separately as a pitched materials and chemicals name with an independent valuation case and downloadable workbook.</p>
-            <ul class="project-metrics">
-              <li>Price on pitch date: $280.06</li>
-              <li>Valuation price: $135.23</li>
-              <li>12-month target: $140.65</li>
-            </ul>
-            <div class="download-row">
-              <a href="ecolab dcf final.xlsx" download>Download Excel model</a>
+            <p class="muted" style="font-size:var(--text-sm)">Independent SELL case for a materials and chemicals name — valuation suggests significant overvaluation at pitch date.</p>
+            <div class="price-visual">
+              <div class="price-row"><span class="price-label">Pitch price</span><div class="price-bar-track"><div class="price-bar price-bar-pitch" data-price-width="100"><span class="price-amount">$280.06</span></div></div></div>
+              <div class="price-row"><span class="price-label">Valuation</span><div class="price-bar-track"><div class="price-bar price-bar-val-neg" data-price-width="48.3"><span class="price-amount">$135.23</span></div></div></div>
+              <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-val-neg" data-price-width="50.2"><span class="price-amount">$140.65</span></div></div></div>
             </div>
-          </article>
-
-          <article class="card reveal reveal-delay-1">
-            <h3>Additional coverage</h3>
-            <ul class="note-list">
-              <li>It keeps the featured section selective rather than overloaded.</li>
-              <li>It still preserves evidence of broader research work beyond the three featured models.</li>
-              <li>It can also grow into a wider archive of pitched companies over time.</li>
-            </ul>
+            <span class="upside-badge down">-49.8% downside identified</span>
+            <div class="download-row"><a href="ecolab dcf final.xlsx" download>Download model</a></div>
           </article>
         </div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Technical skills</span>
+            <h2>Tools and capabilities.</h2>
+            <div class="section-divider"></div>
+          </div>
+          <p class="section-intro">Core competencies developed across 7+ years of financial modeling, research, and data analysis.</p>
+        </div>
+        <div class="skills-grid">
+          <article class="skill-card reveal reveal-delay-1">
+            <div class="skill-icon" aria-hidden="true"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>
+            <h3>Financial Modeling</h3>
+            <p class="muted" style="font-size:var(--text-sm)">DCF, FCFE/FCFF, comps, LBO, sensitivity &amp; scenario analysis</p>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="95"></div></div>
+          </article>
+          <article class="skill-card reveal reveal-delay-2">
+            <div class="skill-icon" aria-hidden="true"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <h3>Bloomberg Terminal</h3>
+            <p class="muted" style="font-size:var(--text-sm)">Market data, screening, equity analysis, fixed income</p>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="90"></div></div>
+          </article>
+          <article class="skill-card reveal reveal-delay-3">
+            <div class="skill-icon" aria-hidden="true"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <h3>Python &amp; SQL</h3>
+            <p class="muted" style="font-size:var(--text-sm)">Data analysis, automation, pandas, financial pipelines</p>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="80"></div></div>
+          </article>
+          <article class="skill-card reveal reveal-delay-4">
+            <div class="skill-icon" aria-hidden="true"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <h3>Research Writing</h3>
+            <p class="muted" style="font-size:var(--text-sm)">Investment memos, sector primers, earnings analysis, pitch decks</p>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="92"></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT / RESUME ===== -->
+    <section class="section" id="about">
+      <div class="container grid-2">
+        <div class="reveal">
+          <span class="eyebrow">About</span>
+          <h2 style="margin-top:.75rem;">Background &amp; qualifications.</h2>
+          <div class="section-divider"></div>
+          <article class="resume-card" style="margin-top:1.5rem;">
+            <h3>What this portfolio shows</h3>
+            <ul class="resume-list">
+              <li>Company-level valuation work with sector context and downloadable workbooks.</li>
+              <li>Industrials and Materials coverage framed as focused investment case studies.</li>
+              <li>Direct access to resume, LinkedIn, and DCF files for fast reviewer validation.</li>
+            </ul>
+            <div class="chip-row">
+              <span class="chip">DCF Valuation</span>
+              <span class="chip">Bottom-up Modeling</span>
+              <span class="chip">Sector Analysis</span>
+              <span class="chip">Sensitivity Work</span>
+              <span class="chip">20+ Companies Modeled</span>
+              <span class="chip">MBA STEM &middot; Smith Fellow</span>
+            </div>
+          </article>
+        </div>
+        <aside>
+          <article class="resume-card reveal reveal-delay-1">
+            <h3>Key materials</h3>
+            <p class="muted">Download resume and supporting files directly.</p>
+            <div class="download-row" style="margin-top:1rem;">
+              <a href="Sravan_Vemireddy_Equity_Research_Resume.pdf" download>Resume PDF</a>
+            </div>
+          </article>
+          <article class="resume-card reveal reveal-delay-2" style="margin-top:1.25rem;">
+            <h3>Profile</h3>
+            <ul class="contact-list">
+              <li><strong>Email</strong><br><span class="muted">svemired@umd.edu</span></li>
+              <li><strong>LinkedIn</strong><br><a class="muted" href="https://www.linkedin.com/in/sravanvemireddy/" target="_blank" rel="noopener noreferrer">linkedin.com/in/sravanvemireddy</a></li>
+              <li><strong>Background</strong><br><span class="muted">MBA candidate at UMD Smith School with founder-operator experience and deep financial modeling expertise across infrastructure, operations, and valuation.</span></li>
+            </ul>
+          </article>
+        </aside>
       </div>
     </section>
 
@@ -686,28 +626,25 @@
       <div class="container grid-2">
         <div class="reveal">
           <span class="eyebrow">Contact</span>
-          <h2 style="margin-top:.75rem;">Open to equity research and finance opportunities.</h2>
+          <h2 style="margin-top:.75rem;">Open to equity research opportunities.</h2>
           <div class="section-divider"></div>
-          <p class="section-intro" style="margin-top:1rem;">
-            For conversations around equity research, financial analysis, valuation work, or related opportunities, the materials on this page can be reviewed directly and the underlying files can be downloaded in one place.
-          </p>
+          <p class="section-intro" style="margin-top:1rem;">Interested in equity research, financial analysis, or valuation roles. All materials and models are available for download above.</p>
         </div>
         <aside class="contact-card reveal reveal-delay-1">
           <h3>Connect</h3>
           <ul class="contact-list">
             <li><strong>Email</strong><br><a class="muted" href="mailto:svemired@umd.edu">svemired@umd.edu</a></li>
             <li><strong>LinkedIn</strong><br><a class="muted" href="https://www.linkedin.com/in/sravanvemireddy/" target="_blank" rel="noopener noreferrer">linkedin.com/in/sravanvemireddy</a></li>
-            <li><strong>Focus</strong><br><span class="muted">Equity research, valuation, financial analysis, and sector-focused investment work.</span></li>
+            <li><strong>Focus</strong><br><span class="muted">Equity research, valuation, financial analysis, sector-focused investment work.</span></li>
           </ul>
         </aside>
       </div>
     </section>
   </main>
 
-  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p>&copy; 2026 Sravan Vemireddy. Public-facing equity research portfolio.</p>
+      <p>&copy; 2026 Sravan Vemireddy</p>
       <div class="footer-links">
         <a href="mailto:svemired@umd.edu">Email</a>
         <a href="https://www.linkedin.com/in/sravanvemireddy/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -716,216 +653,140 @@
     </div>
   </footer>
 
-  <!-- Back to top button -->
   <button class="back-to-top" id="backToTop" aria-label="Back to top">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
   <script>
-    (function () {
-      /* ===== THEME TOGGLE ===== */
-      const root = document.documentElement;
-      const toggle = document.querySelector('[data-theme-toggle]');
-      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      const setIcon = () => {
-        toggle.innerHTML = theme === 'dark'
-          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
-          : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-        toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  (function () {
+    const root = document.documentElement;
+    const toggle = document.querySelector('[data-theme-toggle]');
+    let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const setIcon = () => {
+      toggle.innerHTML = theme === 'dark'
+        ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+        : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    };
+    root.setAttribute('data-theme', theme);
+    setIcon();
+    toggle.addEventListener('click', () => { theme = theme === 'dark' ? 'light' : 'dark'; root.setAttribute('data-theme', theme); setIcon(); });
+
+    /* Scroll progress */
+    const progressBar = document.getElementById('scrollProgress');
+    const header = document.getElementById('siteHeader');
+    const backBtn = document.getElementById('backToTop');
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollTop = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          progressBar.style.width = docHeight > 0 ? (scrollTop / docHeight * 100) + '%' : '0%';
+          header.classList.toggle('scrolled', scrollTop > 20);
+          backBtn.classList.toggle('show', scrollTop > 500);
+          let current = '';
+          sections.forEach(sec => { if (scrollTop >= sec.offsetTop - 120) current = sec.getAttribute('id'); });
+          navLinks.forEach(link => { link.classList.toggle('active', link.getAttribute('href') === '#' + current); });
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* Reveal */
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }); }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(el => obs.observe(el));
+    } else { revealEls.forEach(el => el.classList.add('visible')); }
+
+    /* Animated counters */
+    const counters = document.querySelectorAll('.counter');
+    const animateCounter = (el) => {
+      const target = parseFloat(el.dataset.target);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const isNeg = target < 0;
+      const absTarget = Math.abs(target);
+      const duration = 1800;
+      const start = performance.now();
+      const step = (now) => {
+        const elapsed = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - elapsed, 3);
+        el.textContent = prefix + (isNeg ? '-' : '') + (absTarget * ease).toFixed(2) + suffix;
+        if (elapsed < 1) requestAnimationFrame(step);
       };
-      root.setAttribute('data-theme', theme);
-      setIcon();
-      toggle.addEventListener('click', () => {
-        theme = theme === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', theme);
-        setIcon();
+      requestAnimationFrame(step);
+    };
+    if ('IntersectionObserver' in window) {
+      const cObs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); cObs.unobserve(e.target); } }); }, { threshold: 0.5 });
+      counters.forEach(el => cObs.observe(el));
+    }
+
+    /* Skill bars */
+    const skillBars = document.querySelectorAll('.skill-bar');
+    if ('IntersectionObserver' in window) {
+      const sObs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.dataset.width + '%'; sObs.unobserve(e.target); } }); }, { threshold: 0.3 });
+      skillBars.forEach(el => sObs.observe(el));
+    }
+
+    /* Sector bar charts */
+    const barFills = document.querySelectorAll('.bar-fill');
+    if ('IntersectionObserver' in window) {
+      const bObs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.dataset.barWidth + '%'; bObs.unobserve(e.target); } }); }, { threshold: 0.3 });
+      barFills.forEach(el => bObs.observe(el));
+    }
+
+    /* Price target bars */
+    const priceBars = document.querySelectorAll('.price-bar');
+    if ('IntersectionObserver' in window) {
+      const pObs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.dataset.priceWidth + '%'; pObs.unobserve(e.target); } }); }, { threshold: 0.2 });
+      priceBars.forEach(el => pObs.observe(el));
+    }
+
+    /* Particle background */
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [], w, h;
+    const resize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
+    resize();
+    window.addEventListener('resize', resize);
+    const pCount = Math.min(Math.floor(window.innerWidth / 22), 50);
+    for (let i = 0; i < pCount; i++) {
+      particles.push({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.5 + 0.4, dx: (Math.random() - 0.5) * 0.25, dy: (Math.random() - 0.5) * 0.25, o: Math.random() * 0.2 + 0.03 });
+    }
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      const c = root.getAttribute('data-theme') === 'dark' ? '111,178,180' : '13,93,100';
+      particles.forEach(p => {
+        p.x += p.dx; p.y += p.dy;
+        if (p.x < 0 || p.x > w) p.dx *= -1;
+        if (p.y < 0 || p.y > h) p.dy *= -1;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${c},${p.o})`; ctx.fill();
       });
-
-      /* ===== SCROLL PROGRESS BAR ===== */
-      const progressBar = document.getElementById('scrollProgress');
-      const updateProgress = () => {
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        progressBar.style.width = docHeight > 0 ? (scrollTop / docHeight * 100) + '%' : '0%';
-      };
-
-      /* ===== HEADER SHADOW ON SCROLL ===== */
-      const header = document.getElementById('siteHeader');
-      const updateHeader = () => {
-        header.classList.toggle('scrolled', window.scrollY > 20);
-      };
-
-      /* ===== BACK TO TOP ===== */
-      const backBtn = document.getElementById('backToTop');
-      const updateBackBtn = () => {
-        backBtn.classList.toggle('show', window.scrollY > 500);
-      };
-      backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-      /* ===== ACTIVE NAV LINK ===== */
-      const sections = document.querySelectorAll('section[id]');
-      const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-      const updateActiveNav = () => {
-        let current = '';
-        sections.forEach(sec => {
-          if (window.scrollY >= sec.offsetTop - 120) current = sec.getAttribute('id');
-        });
-        navLinks.forEach(link => {
-          link.classList.toggle('active', link.getAttribute('href') === '#' + current);
-        });
-      };
-
-      /* ===== COMBINED SCROLL HANDLER ===== */
-      let ticking = false;
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            updateProgress();
-            updateHeader();
-            updateBackBtn();
-            updateActiveNav();
-            ticking = false;
-          });
-          ticking = true;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 130) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.strokeStyle = `rgba(${c},${0.05 * (1 - dist / 130)})`; ctx.lineWidth = 0.5; ctx.stroke(); }
         }
-      }, { passive: true });
-
-      /* ===== SCROLL REVEAL (Intersection Observer) ===== */
-      const revealEls = document.querySelectorAll('.reveal');
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-        revealEls.forEach(el => observer.observe(el));
-      } else {
-        revealEls.forEach(el => el.classList.add('visible'));
       }
+      requestAnimationFrame(draw);
+    };
+    draw();
 
-      /* ===== ANIMATED COUNTERS ===== */
-      const counters = document.querySelectorAll('.counter');
-      const animateCounter = (el) => {
-        const target = parseFloat(el.dataset.target);
-        const prefix = el.dataset.prefix || '';
-        const suffix = el.dataset.suffix || '';
-        const isNeg = target < 0;
-        const absTarget = Math.abs(target);
-        const duration = 1800;
-        const start = performance.now();
-
-        const step = (now) => {
-          const elapsed = Math.min((now - start) / duration, 1);
-          const ease = 1 - Math.pow(1 - elapsed, 3);
-          const current = (absTarget * ease).toFixed(2);
-          el.textContent = prefix + (isNeg ? '-' : '') + current + suffix;
-          if (elapsed < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      };
-      if ('IntersectionObserver' in window) {
-        const counterObs = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              animateCounter(entry.target);
-              counterObs.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.5 });
-        counters.forEach(el => counterObs.observe(el));
-      }
-
-      /* ===== SKILL BARS ===== */
-      const skillBars = document.querySelectorAll('.skill-bar');
-      if ('IntersectionObserver' in window) {
-        const skillObs = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.style.width = entry.target.dataset.width + '%';
-              skillObs.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.3 });
-        skillBars.forEach(el => skillObs.observe(el));
-      }
-
-      /* ===== PARTICLE BACKGROUND ===== */
-      const canvas = document.getElementById('bg-canvas');
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      let w, h;
-      const resize = () => {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-      };
-      resize();
-      window.addEventListener('resize', resize);
-
-      const particleCount = Math.min(Math.floor(window.innerWidth / 18), 60);
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          r: Math.random() * 1.8 + 0.5,
-          dx: (Math.random() - 0.5) * 0.3,
-          dy: (Math.random() - 0.5) * 0.3,
-          o: Math.random() * 0.25 + 0.05
-        });
-      }
-
-      const getParticleColor = () => {
-        return root.getAttribute('data-theme') === 'dark' ? '111, 178, 180' : '13, 93, 100';
-      };
-
-      const drawParticles = () => {
-        ctx.clearRect(0, 0, w, h);
-        const color = getParticleColor();
-        particles.forEach(p => {
-          p.x += p.dx;
-          p.y += p.dy;
-          if (p.x < 0 || p.x > w) p.dx *= -1;
-          if (p.y < 0 || p.y > h) p.dy *= -1;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${color}, ${p.o})`;
-          ctx.fill();
-        });
-
-        // Draw connections
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 140) {
-              ctx.beginPath();
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.strokeStyle = `rgba(${color}, ${0.06 * (1 - dist / 140)})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          }
-        }
-        requestAnimationFrame(drawParticles);
-      };
-      drawParticles();
-
-      /* ===== SMOOTH NAV CLICK ===== */
-      document.querySelectorAll('a[href^="#"]').forEach(a => {
-        a.addEventListener('click', e => {
-          const target = document.querySelector(a.getAttribute('href'));
-          if (target) {
-            e.preventDefault();
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
-      });
-
-    })();
+    /* Smooth nav */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } });
+    });
+  })();
   </script>
 </body>
 </html>
