@@ -221,13 +221,13 @@
     .price-label { width: 100px; flex-shrink: 0; color: var(--color-text-muted); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
     .price-bar-track { flex: 1; height: 22px; background: var(--color-surface-2); border-radius: var(--radius-full); overflow: hidden; position: relative; }
     .price-bar { height: 100%; border-radius: var(--radius-full); width: 0%; transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; }
-    .price-bar-pitch { background: var(--color-surface-offset); }
+    .price-bar-purchase { background: var(--color-surface-offset); }
     .price-bar-val { background: linear-gradient(90deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, var(--color-gold))); }
     .price-bar-target { background: linear-gradient(90deg, var(--color-gold), color-mix(in srgb, var(--color-gold) 80%, var(--color-positive))); }
     .price-bar-val-neg { background: linear-gradient(90deg, color-mix(in srgb, var(--color-negative) 60%, var(--color-surface-offset)), var(--color-negative)); }
     .price-amount { font-weight: 800; font-size: var(--text-xs); white-space: nowrap; color: var(--color-text); }
     .price-bar .price-amount { color: var(--color-text-inverse); }
-    .price-bar-pitch .price-amount { color: var(--color-text-muted); }
+    .price-bar-purchase .price-amount { color: var(--color-text-muted); }
     .upside-badge { display: inline-flex; align-items: center; gap: 4px; margin-top: var(--space-2); padding: 0.3rem 0.7rem; border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 800; }
     .upside-badge.up { background: color-mix(in srgb, var(--color-positive) 12%, var(--color-surface)); color: var(--color-positive); }
     .upside-badge.down { background: color-mix(in srgb, var(--color-negative) 12%, var(--color-surface)); color: var(--color-negative); }
@@ -488,11 +488,10 @@
             </div>
             <p class="muted" style="font-size:var(--text-sm)">Bottom-up FCFE valuation across Aerospace, Marine Systems, Combat Systems, and Technologies with segment-level drivers and scenario sensitivity.</p>
             <div class="price-visual">
-              <div class="price-row"><span class="price-label">Pitch price</span><div class="price-bar-track"><div class="price-bar price-bar-pitch" data-price-width="84.4"><span class="price-amount">$344.27</span></div></div></div>
+              <div class="price-row"><span class="price-label">Purchase price</span><div class="price-bar-track"><div class="price-bar price-bar-purchase" data-price-width="84.4"><span class="price-amount">$344.27</span></div></div></div>
               <div class="price-row"><span class="price-label">Valuation</span><div class="price-bar-track"><div class="price-bar price-bar-val" data-price-width="95.1"><span class="price-amount">$388.20</span></div></div></div>
               <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-target" data-price-width="100"><span class="price-amount">$408.21</span></div></div></div>
             </div>
-            <span class="upside-badge up">+18.6% upside from pitch</span>
             <div class="live-ticker" data-ticker="GD" data-pitch="344.27">
               <span class="live-label"><span class="live-dot"></span>Live</span>
               <span class="live-price live-loading">Loading...</span>
@@ -509,11 +508,10 @@
             </div>
             <p class="muted" style="font-size:var(--text-sm)">BUY call supported by package-volume assumptions, revenue-per-package analysis, operating-cost drivers, and a full DCF framework.</p>
             <div class="price-visual">
-              <div class="price-row"><span class="price-label">Pitch price</span><div class="price-bar-track"><div class="price-bar price-bar-pitch" data-price-width="75.4"><span class="price-amount">$251.08</span></div></div></div>
+              <div class="price-row"><span class="price-label">Purchase price</span><div class="price-bar-track"><div class="price-bar price-bar-purchase" data-price-width="75.4"><span class="price-amount">$251.08</span></div></div></div>
               <div class="price-row"><span class="price-label">Valuation</span><div class="price-bar-track"><div class="price-bar price-bar-val" data-price-width="90.9"><span class="price-amount">$302.75</span></div></div></div>
               <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-target" data-price-width="100"><span class="price-amount">$333.03</span></div></div></div>
             </div>
-            <span class="upside-badge up">+32.6% upside from pitch</span>
             <div class="live-ticker" data-ticker="FDX" data-pitch="251.08">
               <span class="live-label"><span class="live-dot"></span>Live</span>
               <span class="live-price live-loading">Loading...</span>
@@ -530,11 +528,10 @@
             </div>
             <p class="muted" style="font-size:var(--text-sm)">Commodity-linked valuation with mining-specific assumptions, commodity sensitivity, and a full valuation framework.</p>
             <div class="price-visual">
-              <div class="price-row"><span class="price-label">Pitch price</span><div class="price-bar-track"><div class="price-bar price-bar-pitch" data-price-width="88.6"><span class="price-amount">$101.15</span></div></div></div>
+              <div class="price-row"><span class="price-label">Purchase price</span><div class="price-bar-track"><div class="price-bar price-bar-purchase" data-price-width="88.6"><span class="price-amount">$101.15</span></div></div></div>
               <div class="price-row"><span class="price-label">Valuation</span><div class="price-bar-track"><div class="price-bar price-bar-val" data-price-width="94.9"><span class="price-amount">$108.42</span></div></div></div>
               <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-target" data-price-width="100"><span class="price-amount">$114.21</span></div></div></div>
             </div>
-            <span class="upside-badge up">+12.9% upside from pitch</span>
             <div class="live-ticker" data-ticker="NEM" data-pitch="101.15">
               <span class="live-label"><span class="live-dot"></span>Live</span>
               <span class="live-price live-loading">Loading...</span>
@@ -562,13 +559,12 @@
               <div><small>October 23, 2025</small><h3>Ecolab</h3></div>
               <div class="tag-row"><span class="tag tag-sell">SELL</span><span class="tag tag-neutral">Materials</span></div>
             </div>
-            <p class="muted" style="font-size:var(--text-sm)">Independent SELL case for a materials and chemicals name — valuation suggests significant overvaluation at pitch date.</p>
+            <p class="muted" style="font-size:var(--text-sm)">Independent SELL case for a materials and chemicals name — valuation suggested significant overvaluation at time of analysis.</p>
             <div class="price-visual">
-              <div class="price-row"><span class="price-label">Pitch price</span><div class="price-bar-track"><div class="price-bar price-bar-pitch" data-price-width="100"><span class="price-amount">$280.06</span></div></div></div>
+              <div class="price-row"><span class="price-label">Purchase price</span><div class="price-bar-track"><div class="price-bar price-bar-purchase" data-price-width="100"><span class="price-amount">$280.06</span></div></div></div>
               <div class="price-row"><span class="price-label">Valuation</span><div class="price-bar-track"><div class="price-bar price-bar-val-neg" data-price-width="48.3"><span class="price-amount">$135.23</span></div></div></div>
               <div class="price-row"><span class="price-label">12-mo target</span><div class="price-bar-track"><div class="price-bar price-bar-val-neg" data-price-width="50.2"><span class="price-amount">$140.65</span></div></div></div>
             </div>
-            <span class="upside-badge down">-49.8% downside identified</span>
             <div class="live-ticker" data-ticker="ECL" data-pitch="280.06" data-direction="sell">
               <span class="live-label"><span class="live-dot"></span>Live</span>
               <span class="live-price live-loading">Loading...</span>
