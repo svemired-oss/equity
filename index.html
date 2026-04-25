@@ -657,14 +657,14 @@
       <h2 class="contact-heading">Open to full-time roles starting Summer 2026.</h2>
       <p class="contact-sub">Equity research, private equity, corporate finance. Happy to walk through any model on a call — or answer the obvious question: why I moved from operator to investor.</p>
       <div class="contact-ctas">
-        <a class="btn-primary" href="/cdn-cgi/l/email-protection#e4979281898d968180a4918980ca818091db9791868e818790d9ad8a908196928d8193c1d6d4c9c1d6d4b7968592858ac1d6d4b281898d968180809d">Email me →</a>
+        <a class="btn-primary" href="mailto:svemired@umd.edu?subject=Interview%20-%20Sravan%20Vemireddy">Email me →</a>
         <a class="btn-secondary" href="https://www.linkedin.com/in/sravanvemireddy/" target="_blank">LinkedIn</a>
       </div>
     </div>
     <div class="contact-links">
       <div class="contact-link-item">
         <span class="cl-label">Email</span>
-        <a class="cl-val" href="/cdn-cgi/l/email-protection#8cfffae9e1e5fee9e8ccf9e1e8a2e9e8f9b3fff9eee6e9eff8b1c5e2f8e9fefae5e9fba9bebca1a9bebcdffeedfaede2a9bebcdae9e1e5fee9e8e8f5"><span class="__cf_email__" data-cfemail="8bf8fdeee6e2f9eeefcbfee6efa5eeeffe">[email&#160;protected]</span></a>
+        <a class="cl-val" href="mailto:svemired@umd.edu?subject=Interview%20-%20Sravan%20Vemireddy">svemired@umd.edu</a>
       </div>
       <div class="contact-link-item">
         <span class="cl-label">Phone</span>
@@ -686,33 +686,24 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-const LOGO_DOMAINS = {
-  GD:  'generaldynamics.com',
-  FDX: 'fedex.com',
-  NEM: 'newmont.com',
-  ECL: 'ecolab.com',
+<script>
+const LOGO_PATHS = {
+  GD:  'logos/gd.png',
+  FDX: 'logos/fdx.png',
+  NEM: 'logos/nem.png',
+  ECL: 'logos/ecl.webp',
 };
 
-const TICKER_COLORS = {
-  GD:  '#1a3a5c',
-  FDX: '#4d148c',
-  NEM: '#b8860b',
-  ECL: '#005596',
-};
-
-function logoImg(ticker, size=28) {
-  const domain = LOGO_DOMAINS[ticker];
-  const color = TICKER_COLORS[ticker] || '#2a2a35';
-  const initial = ticker[0];
-  const fs = Math.round(size * 0.45);
-  return '<span style="width:'+size+'px;height:'+size+'px;border-radius:4px;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;background:'+color+';flex-shrink:0;position:relative">'
-    + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:'+fs+'px;font-weight:700;color:#fff">'+initial+'</span>'
-    + '<img src="https://logo.clearbit.com/'+domain+'?size='+(size*2)+'"'
-    + ' style="width:'+size+'px;height:'+size+'px;object-fit:contain;display:block;position:relative;z-index:1"'
-    + ' onload="this.previousElementSibling.style.display=&quot;none&quot;"'
-    + ' onerror="this.style.display=&quot;none&quot;"'
-    + ' alt="'+ticker+'">'
+// Render a horizontal wordmark logo on a white pill background.
+// width/height are the container dimensions. Logos are object-fit: contain
+// with internal padding so the wordmark sits comfortably.
+function logoImg(ticker, h) {
+  const path = LOGO_PATHS[ticker];
+  const w = Math.round(h * 2.6);
+  const padX = Math.round(h * 0.22);
+  const padY = Math.round(h * 0.18);
+  return '<span style="width:'+w+'px;height:'+h+'px;border-radius:4px;background:#fff;display:inline-flex;align-items:center;justify-content:center;padding:'+padY+'px '+padX+'px;flex-shrink:0;box-sizing:border-box">'
+    + '<img src="'+path+'" alt="'+ticker+'" style="max-width:100%;max-height:100%;object-fit:contain;display:block">'
     + '</span>';
 }
 
