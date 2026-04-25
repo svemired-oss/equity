@@ -488,7 +488,7 @@
   <div class="scorecard-summary">
     <div class="sc-sum-item">
       <span class="sc-sum-val gold" id="sc-count">4</span>
-      <span class="sc-sum-label">Pitches Tracked</span>
+      <span class="sc-sum-label">Companies Pitched</span>
     </div>
     <div class="sc-sum-item">
       <span class="sc-sum-val" id="sc-hitrate">—</span>
@@ -657,14 +657,14 @@
       <h2 class="contact-heading">Open to full-time roles starting Summer 2026.</h2>
       <p class="contact-sub">Equity research, private equity, corporate finance. Happy to walk through any model on a call — or answer the obvious question: why I moved from operator to investor.</p>
       <div class="contact-ctas">
-        <a class="btn-primary" href="/cdn-cgi/l/email-protection#e29194878f8b908786a2978f86cc878697dd91978088878196dfab8c968790948b8795c2006276c2b1908394838cc2b4878f8b908786869b">Email me →</a>
+        <a class="btn-primary" href="/cdn-cgi/l/email-protection#e4979281898d968180a4918980ca818091db9791868e818790d9ad8a908196928d8193c1d6d4c9c1d6d4b7968592858ac1d6d4b281898d968180809d">Email me →</a>
         <a class="btn-secondary" href="https://www.linkedin.com/in/sravanvemireddy/" target="_blank">LinkedIn</a>
       </div>
     </div>
     <div class="contact-links">
       <div class="contact-link-item">
         <span class="cl-label">Email</span>
-        <a class="cl-val" href="/cdn-cgi/l/email-protection#433035262e2a31262703362e276d262736"><span class="__cf_email__" data-cfemail="addedbc8c0c4dfc8c9edd8c0c983c8c9d8">[email&#160;protected]</span></a>
+        <a class="cl-val" href="/cdn-cgi/l/email-protection#8cfffae9e1e5fee9e8ccf9e1e8a2e9e8f9b3fff9eee6e9eff8b1c5e2f8e9fefae5e9fba9bebca1a9bebcdffeedfaede2a9bebcdae9e1e5fee9e8e8f5"><span class="__cf_email__" data-cfemail="8bf8fdeee6e2f9eeefcbfee6efa5eeeffe">[email&#160;protected]</span></a>
       </div>
       <div class="contact-link-item">
         <span class="cl-label">Phone</span>
@@ -687,6 +687,35 @@
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const LOGO_DOMAINS = {
+  GD:  'generaldynamics.com',
+  FDX: 'fedex.com',
+  NEM: 'newmont.com',
+  ECL: 'ecolab.com',
+};
+
+const TICKER_COLORS = {
+  GD:  '#1a3a5c',
+  FDX: '#4d148c',
+  NEM: '#b8860b',
+  ECL: '#005596',
+};
+
+function logoImg(ticker, size=28) {
+  const domain = LOGO_DOMAINS[ticker];
+  const color = TICKER_COLORS[ticker] || '#2a2a35';
+  const initial = ticker[0];
+  const fs = Math.round(size * 0.45);
+  return '<span style="width:'+size+'px;height:'+size+'px;border-radius:4px;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;background:'+color+';flex-shrink:0;position:relative">'
+    + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:'+fs+'px;font-weight:700;color:#fff">'+initial+'</span>'
+    + '<img src="https://logo.clearbit.com/'+domain+'?size='+(size*2)+'"'
+    + ' style="width:'+size+'px;height:'+size+'px;object-fit:contain;display:block;position:relative;z-index:1"'
+    + ' onload="this.previousElementSibling.style.display=&quot;none&quot;"'
+    + ' onerror="this.style.display=&quot;none&quot;"'
+    + ' alt="'+ticker+'">'
+    + '</span>';
+}
+
 const PITCHES = [
   {
     ticker: 'GD',
@@ -743,26 +772,39 @@ const livePrices = {};
 let fetchCount = 0;
 
 async function fetchPrice(ticker) {
-  try {
-    const res = await fetch(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d&includePrePost=false`,
-      { headers: { 'Accept': 'application/json' } }
-    );
-    if (!res.ok) throw new Error('non-ok');
-    const data = await res.json();
-    const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
-    if (price) { livePrices[ticker] = price; return price; }
-  } catch (e) {
-    // Try fallback
+  // Try query1 chart endpoint — returns last traded price even when market is closed
+  const urls = [
+    `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=5d&includePrePost=false`,
+    `https://query2.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=5d&includePrePost=false`,
+  ];
+  for (const url of urls) {
     try {
-      const res2 = await fetch(
-        `https://query2.finance.yahoo.com/v7/finance/quote?symbols=${ticker}&formatted=false`
-      );
-      const d2 = await res2.json();
-      const price = d2?.quoteResponse?.result?.[0]?.regularMarketPrice;
-      if (price) { livePrices[ticker] = price; return price; }
-    } catch (e2) { /* silent */ }
+      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      if (!res.ok) continue;
+      const data = await res.json();
+      const meta = data?.chart?.result?.[0]?.meta;
+      // regularMarketPrice is the last traded price (works after hours / weekend)
+      const price = meta?.regularMarketPrice || meta?.previousClose;
+      if (price) {
+        const isMarketOpen = meta?.marketState === 'REGULAR';
+        livePrices[ticker] = { price, isMarketOpen };
+        return price;
+      }
+    } catch (e) { /* try next */ }
   }
+  // Last resort: CORS proxy
+  try {
+    const res = await fetch(`https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=5d`);
+    if (res.ok) {
+      const data = await res.json();
+      const meta = data?.chart?.result?.[0]?.meta;
+      const price = meta?.regularMarketPrice || meta?.previousClose;
+      if (price) {
+        livePrices[ticker] = { price, isMarketOpen: false };
+        return price;
+      }
+    }
+  } catch (e) { /* silent */ }
   return null;
 }
 
@@ -790,7 +832,9 @@ function renderTable(prices) {
   let counted = 0;
 
   tbody.innerHTML = PITCHES.map(p => {
-    const live = prices[p.ticker] || null;
+    const entry = prices[p.ticker] || null;
+    const live = entry ? entry.price : null;
+    const isMarketOpen = entry ? entry.isMarketOpen : false;
     const isSell = p.thesis === 'SELL';
     const tagClass = isSell ? 'tag-sell' : 'tag-buy';
 
@@ -806,7 +850,8 @@ function renderTable(prices) {
       counted++;
 
       const liveClass = live >= p.pitchPrice ? (isSell ? 'delta-neg' : 'delta-pos') : (isSell ? 'delta-pos' : 'delta-neg');
-      liveTd = `<span class="price-val ${liveClass}">$${fmt(live)}</span>`;
+      const priceLabel = isMarketOpen ? '' : '<br><span style="font-size:9px;color:var(--muted);font-family:var(--mono)">LAST CLOSE</span>';
+      liveTd = `<span class="price-val ${liveClass}">$${fmt(live)}${priceLabel}</span>`;
 
       const dClass = pnlClass(rawPct, isSell);
       deltaTd = `<span class="${dClass}">${pnlText(rawPct, isSell)}</span>`;
@@ -814,8 +859,13 @@ function renderTable(prices) {
 
     return `<tr>
       <td>
-        <div class="ticker-name">${p.company}</div>
-        <div class="ticker-sub">${p.ticker} · ${p.date}</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          ${logoImg(p.ticker, 28)}
+          <div>
+            <div class="ticker-name">${p.company}</div>
+            <div class="ticker-sub">${p.ticker} · ${p.date}</div>
+          </div>
+        </div>
       </td>
       <td><span class="tag ${tagClass}">${p.thesis}</span></td>
       <td><span style="font-size:13px;color:var(--muted2)">${p.sector}</span></td>
@@ -844,7 +894,8 @@ function renderTable(prices) {
 function renderModels(prices) {
   const grid = document.getElementById('models-grid');
   grid.innerHTML = PITCHES.map(p => {
-    const live = prices[p.ticker] || null;
+    const entry = prices[p.ticker] || null;
+    const live = entry ? entry.price : null;
     const isSell = p.thesis === 'SELL';
     const tagClass = isSell ? 'tag-sell' : 'tag-buy';
 
@@ -865,7 +916,10 @@ function renderModels(prices) {
 
     return `<div class="model-card">
       <div class="model-top">
-        <span class="model-date">${p.date}</span>
+        <div style="display:flex;align-items:center;gap:10px">
+          ${logoImg(p.ticker, 36)}
+          <span class="model-date" style="margin-top:2px">${p.date}</span>
+        </div>
         <span class="tag ${tagClass}">${p.thesis}</span>
       </div>
       <div>
