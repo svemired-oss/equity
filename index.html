@@ -657,14 +657,14 @@
       <h2 class="contact-heading">Open to full-time roles starting Summer 2026.</h2>
       <p class="contact-sub">Equity research, private equity, corporate finance. Happy to walk through any model on a call — or answer the obvious question: why I moved from operator to investor.</p>
       <div class="contact-ctas">
-        <a class="btn-primary" href="mailto:svemired@umd.edu?subject=Interview%20-%20Sravan%20Vemireddy">Email me →</a>
+        <a class="btn-primary" href="/cdn-cgi/l/email-protection#c5b6b3a0a8acb7a0a185b0a8a1eba0a1b0fab6b0a7afa0a6b1f88cabb1a0b7b3aca0b2e0f7f5e8e0f7f596b7a4b3a4abe0f7f593a0a8acb7a0a1a1bc">Email me →</a>
         <a class="btn-secondary" href="https://www.linkedin.com/in/sravanvemireddy/" target="_blank">LinkedIn</a>
       </div>
     </div>
     <div class="contact-links">
       <div class="contact-link-item">
         <span class="cl-label">Email</span>
-        <a class="cl-val" href="mailto:svemired@umd.edu?subject=Interview%20-%20Sravan%20Vemireddy">svemired@umd.edu</a>
+        <a class="cl-val" href="/cdn-cgi/l/email-protection#d6a5a0b3bbbfa4b3b296a3bbb2f8b3b2a3e9a5a3b4bcb3b5a2eb9fb8a2b3a4a0bfb3a1f3e4e6fbf3e4e685a4b7a0b7b8f3e4e680b3bbbfa4b3b2b2af"><span class="__cf_email__" data-cfemail="f08386959d99829594b0859d94de959485">[email&#160;protected]</span></a>
       </div>
       <div class="contact-link-item">
         <span class="cl-label">Phone</span>
@@ -686,7 +686,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const LOGO_PATHS = {
   GD:  'logos/gd.png',
   FDX: 'logos/fdx.png',
@@ -762,40 +762,39 @@ const PITCHES = [
 const livePrices = {};
 let fetchCount = 0;
 
+// =============================================================
+//  LIVE PRICES — via Finnhub (free tier, 60 req/min, CORS-enabled)
+// =============================================================
+//  Get a free API key at https://finnhub.io/register
+//  Replace the value below with your key. The free tier is plenty:
+//  4 tickers × 1/min = ~240 calls/hour, well under 60/min limit.
+// =============================================================
+const FINNHUB_KEY = 'd7t05ppr01qugn08rqbgd7t05ppr01qugn08rqc0';
+
+function isUSMarketOpen() {
+  const now = new Date();
+  const et = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  const day = et.getDay();
+  if (day === 0 || day === 6) return false;
+  const minutes = et.getHours() * 60 + et.getMinutes();
+  return minutes >= 570 && minutes < 960;
+}
+
 async function fetchPrice(ticker) {
-  // Try query1 chart endpoint — returns last traded price even when market is closed
-  const urls = [
-    `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=5d&includePrePost=false`,
-    `https://query2.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=5d&includePrePost=false`,
-  ];
-  for (const url of urls) {
+  if (FINNHUB_KEY && FINNHUB_KEY !== 'YOUR_FINNHUB_KEY_HERE') {
     try {
-      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
-      if (!res.ok) continue;
-      const data = await res.json();
-      const meta = data?.chart?.result?.[0]?.meta;
-      // regularMarketPrice is the last traded price (works after hours / weekend)
-      const price = meta?.regularMarketPrice || meta?.previousClose;
-      if (price) {
-        const isMarketOpen = meta?.marketState === 'REGULAR';
-        livePrices[ticker] = { price, isMarketOpen };
-        return price;
+      const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_KEY}`);
+      if (res.ok) {
+        const data = await res.json();
+        // c = current price, pc = previous close
+        const price = data?.c || data?.pc;
+        if (price && price > 0) {
+          livePrices[ticker] = { price, isMarketOpen: isUSMarketOpen() };
+          return price;
+        }
       }
-    } catch (e) { /* try next */ }
+    } catch (e) { /* fall through */ }
   }
-  // Last resort: CORS proxy
-  try {
-    const res = await fetch(`https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=5d`);
-    if (res.ok) {
-      const data = await res.json();
-      const meta = data?.chart?.result?.[0]?.meta;
-      const price = meta?.regularMarketPrice || meta?.previousClose;
-      if (price) {
-        livePrices[ticker] = { price, isMarketOpen: false };
-        return price;
-      }
-    }
-  } catch (e) { /* silent */ }
   return null;
 }
 
